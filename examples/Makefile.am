@@ -1,0 +1,4 @@
+SUBDIRS = \
+	decompression \
+	compression
+

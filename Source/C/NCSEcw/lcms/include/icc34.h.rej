@@ -1,0 +1,30 @@
+--- Source/C/NCSEcw/lcms/include/icc34.h	2006-07-03 10:15:22.000000000 -0500
++++ Source/C/NCSEcw/lcms/include/icc34.h	2008-12-10 08:58:37.000000000 -0600
+@@ -149,17 +149,17 @@
+   June 9, 2003, Adapted for use with configure by Bob Friesenhahn
+   Added the stupid check for autoconf by Marti Maria 
+ */
+-typedef @INT32_T@	icSignature;
++typedef int	icSignature;
+ 
+-typedef @UINT8_T@	icUInt8Number;
+-typedef @UINT16_T@	icUInt16Number;
+-typedef @UINT32_T@	icUInt32Number;
+-typedef @UINT32_T@	icUInt64Number[2];
+-
+-typedef @INT8_T@	icInt8Number;
+-typedef @INT16_T@	icInt16Number;
+-typedef @INT32_T@	icInt32Number;
+-typedef @INT32_T@	icInt64Number[2];
++typedef unsigned char	icUInt8Number;
++typedef unsigned short	icUInt16Number;
++typedef unsigned int	icUInt32Number;
++typedef unsigned int	icUInt64Number[2];
++
++typedef char	icInt8Number;
++typedef short	icInt16Number;
++typedef int	icInt32Number;
++typedef int	icInt64Number[2];
+ 
+ typedef icInt32Number	icS15Fixed16Number;
+ typedef icUInt32Number	icU16Fixed16Number;

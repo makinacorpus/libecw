@@ -1,0 +1,447 @@
+diff -ur libecwj2-3.3-clean/Source/C/NCSEcw/NCSEcw/NCSEcw.cpp libecwj2-3.3-new/Source/C/NCSEcw/NCSEcw/NCSEcw.cpp
+--- libecwj2-3.3-clean/Source/C/NCSEcw/NCSEcw/NCSEcw.cpp	2006-07-03 10:15:10.000000000 -0500
++++ libecwj2-3.3-new/Source/C/NCSEcw/NCSEcw/NCSEcw.cpp	2008-12-10 08:58:40.000000000 -0600
+@@ -472,10 +472,10 @@
+ 	if (!pNCSEcwInfo) {
+ 		NCSecwInitInternal();
+ 	}
+-	//pNCSEcwInfo->bNoTextureDither = bNoTextureDither;
+-	//pNCSEcwInfo->nForceFileReopen = bForceFileReopen;
+-	NCSecwSetConfig(NCSCFG_TEXTURE_DITHER, (bNoTextureDither == TRUE) ? FALSE : TRUE);
+-	NCSecwSetConfig(NCSCFG_FORCE_FILE_REOPEN, bForceFileReopen);
++	pNCSEcwInfo->bNoTextureDither = bNoTextureDither;
++	pNCSEcwInfo->nForceFileReopen = bForceFileReopen;
++	//NCSecwSetConfig(NCSCFG_TEXTURE_DITHER, (bNoTextureDither == TRUE) ? FALSE : TRUE);
++	//NCSecwSetConfig(NCSCFG_FORCE_FILE_REOPEN, bForceFileReopen);
+ }
+ 
+ /*******************************************************
+diff -ur libecwj2-3.3-clean/Source/C/NCSEcw/NCSEcw/NCSRenderer.cpp libecwj2-3.3-new/Source/C/NCSEcw/NCSEcw/NCSRenderer.cpp
+--- libecwj2-3.3-clean/Source/C/NCSEcw/NCSEcw/NCSRenderer.cpp	2006-07-03 10:15:10.000000000 -0500
++++ libecwj2-3.3-new/Source/C/NCSEcw/NCSEcw/NCSRenderer.cpp	2008-12-10 08:58:34.000000000 -0600
+@@ -1084,12 +1084,12 @@
+ 		
+ #elif defined(MACINTOSH) || defined(MACOSX) // Check if realloc is successful.
+ 		UINT8 *pTemp;
+-		pTemp = (UINT8 *)NCSRealloc(m_pRGBTripletsLocal, nWidth*nHeight*3, 1);
++		pTemp = (UINT8 *)NCSRealloc(m_pRGBALocal, nWidth*nHeight*3, 1);
+ 		if( !pTemp ) {
+ 			return NCS_COULDNT_ALLOC_MEMORY;
+ 		}
+ 		else {
+-			m_pRGBTripletsLocal = pTemp;
++			m_pRGBALocal = pTemp;
+ 		}
+ #endif
+ 	}
+@@ -2043,7 +2043,7 @@
+ 		case 32:
+ #ifndef NCS_HIST_AND_LUT_SUPPORT
+ 				for(nLine = 0; nLine < nHeight; nLine++) {
+-					UINT8	*pRGBTriplets = (UINT8*)&(m_pRGBTriplets[nWidth * 3 * nLine]);
++					UINT8	*pRGBTriplets = (UINT8*)&(m_pRGBALocal[nWidth * 3 * nLine]);
+ 					UINT32	*pImagePtr32 = (UINT32*)&(m_pBitmapImage[WIDTHBYTES(nWidth * 32) * nLine]);
+ 
+ 					for(nCell = 0; nCell < nWidth; nCell++) {
+@@ -2116,7 +2116,7 @@
+ 		default:
+ #ifndef NCS_HIST_AND_LUT_SUPPORT
+ 				for(nLine = 0; nLine < nHeight; nLine++) {
+-					UINT8 *pRGBTriplets = (UINT8*)&(m_pRGBTriplets[nWidth * 3 * nLine]);
++					UINT8 *pRGBTriplets = (UINT8*)&(m_pRGBALocal[nWidth * 3 * nLine]);
+ 					UINT8 *pImagePtr8 = (UINT8*)&(m_pBitmapImage[WIDTHBYTES(nWidth * 24) * nLine]);
+ 
+ 					memcpy(pImagePtr8, pRGBTriplets, nWidth * 3);
+@@ -2159,7 +2159,7 @@
+ 		case 16:
+ #ifndef NCS_HIST_AND_LUT_SUPPORT
+ 					for(nLine = 0; nLine < nHeight; nLine++) {
+-						UINT8 *pRGBTriplets = (UINT8*)&(m_pRGBTriplets[nWidth * 3 * nLine]);
++						UINT8 *pRGBTriplets = (UINT8*)&(m_pRGBALocal[nWidth * 3 * nLine]);
+ 						UINT16 *pImagePtr16 = (UINT16*)&(m_pBitmapImage[WIDTHBYTES(nWidth * 16) * nLine]);
+ 
+ 						for(nCell = 0; nCell < nWidth; nCell++) {
+@@ -2431,7 +2431,7 @@
+ 		switch(m_nDCBitDepth) {
+ 		case 32:
+ 				for(nLine = 0; nLine < nHeight; nLine++) {
+-					UINT8	*pRGBTriplets = (UINT8*)&(m_pRGBTriplets[nWidth * 3 * nLine]);
++					UINT8	*pRGBTriplets = (UINT8*)&(m_pRGBALocal[nWidth * 3 * nLine]);
+ 					index = nLine*nBytesPerRow;
+ 					for(j=0, i=0; (j < nBytesPerRow) && (i < (nWidth * 3)); j+=4, i+=3) {
+ 						offBaseAddr[index+j] = 0;
+@@ -2445,7 +2445,7 @@
+ /*		case 24:	// other bit depths not tested and probably don't work
+ 		default:
+ 				for(nLine = 0; nLine < nHeight; nLine++) {
+-					UINT8 *pRGBTriplets = (UINT8*)&(m_pRGBTriplets[nWidth * 3 * nLine]);
++					UINT8 *pRGBTriplets = (UINT8*)&(m_pRGBALocal[nWidth * 3 * nLine]);
+ 					UINT8 *pImagePtr8 = (UINT8*)&(offBaseAddr[WIDTHBYTES(nWidth * 24) * nLine]);
+ 
+ 					memcpy(pImagePtr8, pRGBTriplets, nWidth * 3);
+@@ -2454,7 +2454,7 @@
+ 
+ 		case 16:
+ 				for(nLine = 0; nLine < nHeight; nLine++) {
+-					UINT8 *pRGBTriplets = (UINT8*)&(m_pRGBTriplets[nWidth * 3 * nLine]);
++					UINT8 *pRGBTriplets = (UINT8*)&(m_pRGBALocal[nWidth * 3 * nLine]);
+ 					UINT16 *pImagePtr16 = (UINT16*)&(offBaseAddr[WIDTHBYTES(nWidth * 16) * nLine]);
+ 
+ 					for(nCell = 0; nCell < nWidth; nCell++) {
+@@ -2468,7 +2468,7 @@
+ 
+ 		case 15:
+ 				for(nLine = 0; nLine < nHeight; nLine++) {
+-					UINT8 *pRGBTriplets = (UINT8*)&(m_pRGBTriplets[nWidth * 3 * nLine]);
++					UINT8 *pRGBTriplets = (UINT8*)&(m_pRGBALocal[nWidth * 3 * nLine]);
+ 					UINT16 *pImagePtr16 = (UINT16*)&(offBaseAddr[WIDTHBYTES(nWidth * 16) * nLine]);
+ 
+ 					for(nCell = 0; nCell < nWidth; nCell++) {
+@@ -2482,7 +2482,7 @@
+ 
+ 		case 8:
+ 				for(nLine = 0; nLine < nHeight; nLine++) {
+-					UINT8	*pRGBTriplets = (UINT8*)&(m_pRGBTriplets[nWidth * 3 * nLine]);
++					UINT8	*pRGBTriplets = (UINT8*)&(m_pRGBALocal[nWidth * 3 * nLine]);
+ 					UINT8	*pImagePtr8 = (UINT8*)&(offBaseAddr[WIDTHBYTES(nWidth * 8) * nLine]);
+ 
+ 					for(nCell = 0; nCell < nWidth; nCell++) {
+diff -ur libecwj2-3.3-clean/Source/C/NCSEcw/NCSJP2/NCSJP2GMLGeoLocationBox.cpp libecwj2-3.3-new/Source/C/NCSEcw/NCSJP2/NCSJP2GMLGeoLocationBox.cpp
+--- libecwj2-3.3-clean/Source/C/NCSEcw/NCSJP2/NCSJP2GMLGeoLocationBox.cpp	2006-07-03 10:15:10.000000000 -0500
++++ libecwj2-3.3-new/Source/C/NCSEcw/NCSJP2/NCSJP2GMLGeoLocationBox.cpp	2008-12-10 08:58:43.000000000 -0600
+@@ -109,7 +109,7 @@
+ 			if(OriginPoint && OriginPoint->Attribute("gml:id") && !stricmp(OriginPoint->Attribute("gml:id"), "JPEG2000_Origin")) {
+ 				const char *pTxt = OriginPoint->Attribute("srsName");
+ 				if(pTxt) {
+-					nResults += sscanf(pTxt, "epsg:%ld", &nEPSGCode);
++					nResults += sscanf(pTxt, "epsg:%u", &nEPSGCode);
+ 					bSRSAttributePresent = true;
+ 				}
+ 				TiXmlText *Coords = docHandle.FirstChild("JPEG2000_GeoLocation").FirstChild("gml:RectifiedGrid").FirstChild("gml:origin").FirstChild("gml:Point").FirstChild("gml:coordinates").FirstChild().Text();
+@@ -183,7 +183,7 @@
+ 				{
+ 					char szEPSG[32];
+ 					*szEPSG = '\0';
+-					sprintf(szEPSG,"epsg:%ld",nEPSGCode);
++					sprintf(szEPSG,"epsg:%u",nEPSGCode);
+ 					m_GMLFileInfo.szProjection = NCSStrDup(szEPSG);
+ 					m_GMLFileInfo.szDatum = NCSStrDup(szEPSG);
+ 				}
+@@ -236,13 +236,13 @@
+ 		char szSRSName[32];
+ 		*szSRSName = '\0';
+ 		UINT32 nEPSGCode = Epsg.GetEPSG(m_GMLFileInfo.szProjection, m_GMLFileInfo.szDatum);
+-		if (nEPSGCode) sprintf(szSRSName," srsName=\"epsg:%ld\"",nEPSGCode);
++		if (nEPSGCode) sprintf(szSRSName," srsName=\"epsg:%u\"",nEPSGCode);
+ 		else if (strnicmp(m_GMLFileInfo.szProjection,"epsg:",5) == 0) //we have an unknown EPSG
+ 		{
+ 			char *pColon = strchr(m_GMLFileInfo.szProjection,':');
+ 			pColon++;
+ 			nEPSGCode = atoi(pColon); //grab EPSG code
+-			sprintf(szSRSName," srsName=\"epsg:%ld\"",nEPSGCode);
++			sprintf(szSRSName," srsName=\"epsg:%u\"",nEPSGCode);
+ 		}
+ 		double dRegistrationX = m_GMLFileInfo.fOriginX;
+ 		double dRegistrationY = m_GMLFileInfo.fOriginY;
+diff -ur libecwj2-3.3-clean/Source/C/NCSEcw/NCSJP2/NCSJP2PCSBox.cpp libecwj2-3.3-new/Source/C/NCSEcw/NCSJP2/NCSJP2PCSBox.cpp
+--- libecwj2-3.3-clean/Source/C/NCSEcw/NCSJP2/NCSJP2PCSBox.cpp	2006-07-03 10:15:10.000000000 -0500
++++ libecwj2-3.3-new/Source/C/NCSEcw/NCSJP2/NCSJP2PCSBox.cpp	2008-12-10 08:58:44.000000000 -0600
+@@ -810,7 +810,7 @@
+ 						//be rolled back into NCSGDTEpsg
+ 						{
+ 							char szEPSG[ECW_MAX_PROJECTION_LEN];
+-							sprintf(szEPSG,"epsg:%ld", p->v.nValue);
++							sprintf(szEPSG,"epsg:%u", p->v.nValue);
+ 							m_PCSFileInfo.szProjection = NCSStrDup(szEPSG);
+ 							m_PCSFileInfo.szDatum = NCSStrDup(szEPSG);
+ 						}
+diff -ur libecwj2-3.3-clean/Source/C/NCSEcw/NCSJP2/NCSJPCMainHeader.cpp libecwj2-3.3-new/Source/C/NCSEcw/NCSJP2/NCSJPCMainHeader.cpp
+--- libecwj2-3.3-clean/Source/C/NCSEcw/NCSJP2/NCSJPCMainHeader.cpp	2006-07-03 10:15:12.000000000 -0500
++++ libecwj2-3.3-new/Source/C/NCSEcw/NCSJP2/NCSJPCMainHeader.cpp	2008-12-10 08:58:45.000000000 -0600
+@@ -432,7 +432,7 @@
+ 	for(INT32 r = 0; r < m_COD.m_SPcod.m_nLevels + 1; r++) {
+ 		m_EncoderFiles[r] = new CNCSJPCFileIOStream();
+ 	
+-		sprintf(szRelTmpDir, "%s" NCS_FILE_SEP "r%ldp.tmp", 
++		sprintf(szRelTmpDir, "%s" NCS_FILE_SEP "r%dp.tmp", 
+ 							m_pTmpDir, r);
+ 		if(!bWrite) {
+ 			((CNCSJPCFileIOStream*)m_EncoderFiles[r])->SetIOCacheSize(0);
+diff -ur libecwj2-3.3-clean/Source/C/NCSEcw/NCSJP2/NCSJPCResolution.cpp libecwj2-3.3-new/Source/C/NCSEcw/NCSJP2/NCSJPCResolution.cpp
+--- libecwj2-3.3-clean/Source/C/NCSEcw/NCSJP2/NCSJPCResolution.cpp	2006-07-03 10:15:12.000000000 -0500
++++ libecwj2-3.3-new/Source/C/NCSEcw/NCSJP2/NCSJPCResolution.cpp	2008-12-10 08:58:47.000000000 -0600
+@@ -1773,11 +1773,11 @@
+ 		//Step0-1 == 2State.
+ 		//
+ 
+-		UINT32 n = 0;
++		INT32 n = 0;
+ 		nWidth = NCSCeilDiv(nWidth, 2);
+ 
+-		UINT32 n2n = n * 2 - 2;
+-			
++		INT32 n2n = n * 2 - 2;
++		
+ 		INT32 nPrevVert01 = pSrc1Down[n2n] - NCSFloorDiv(pSrc0[n2n] + pSrc2Down[n2n], 2);
+ 		INT32 nPrevVert11 = pSrc1Down[n2n+1] - NCSFloorDiv(pSrc0[n2n+1] + pSrc2Down[n2n+1], 2);
+ 		INT32 nPrevVert00 = pSrc0[n2n] + NCSFloorDiv(pSrc1Up[n2n] - NCSFloorDiv(pSrc2Up[n2n] + pSrc0[n2n], 2) + nPrevVert01 + 2, 4);
+@@ -1788,7 +1788,7 @@
+ 		INT32 nVert01 = pSrc1Down[n2n] - NCSFloorDiv(pSrc0[n2n] + pSrc2Down[n2n], 2);
+ 		INT32 nVert00 = pSrc0[n2n] + NCSFloorDiv(pSrc1Up[n2n] - NCSFloorDiv(pSrc2Up[n2n] + pSrc0[n2n], 2) + nVert01 + 2, 4);
+ 
+-		for(; n < nWidth; n++) {
++		for(; n < (INT32)nWidth; n++) {
+ 			n2n = 2 * n;
+ 
+ 			INT32 nVert11 = pSrc1Down[n2n+1] - NCSFloorDiv(pSrc0[n2n+1] + pSrc2Down[n2n+1], 2);
+diff -ur libecwj2-3.3-clean/Source/C/NCSEcw/lcms/include/icc34.h libecwj2-3.3-new/Source/C/NCSEcw/lcms/include/icc34.h
+--- libecwj2-3.3-clean/Source/C/NCSEcw/lcms/include/icc34.h	2006-07-03 10:15:22.000000000 -0500
++++ libecwj2-3.3-new/Source/C/NCSEcw/lcms/include/icc34.h	2008-12-10 08:58:37.000000000 -0600
+@@ -149,17 +149,17 @@
+   June 9, 2003, Adapted for use with configure by Bob Friesenhahn
+   Added the stupid check for autoconf by Marti Maria 
+ */
+-typedef @INT32_T@	icSignature;
++typedef int	icSignature;
+ 
+-typedef @UINT8_T@	icUInt8Number;
+-typedef @UINT16_T@	icUInt16Number;
+-typedef @UINT32_T@	icUInt32Number;
+-typedef @UINT32_T@	icUInt64Number[2];
+-
+-typedef @INT8_T@	icInt8Number;
+-typedef @INT16_T@	icInt16Number;
+-typedef @INT32_T@	icInt32Number;
+-typedef @INT32_T@	icInt64Number[2];
++typedef unsigned char	icUInt8Number;
++typedef unsigned short	icUInt16Number;
++typedef unsigned int	icUInt32Number;
++typedef unsigned int	icUInt64Number[2];
++
++typedef char	icInt8Number;
++typedef short	icInt16Number;
++typedef int	icInt32Number;
++typedef int	icInt64Number[2];
+ 
+ typedef icInt32Number	icS15Fixed16Number;
+ typedef icUInt32Number	icU16Fixed16Number;
+diff -ur libecwj2-3.3-clean/Source/C/NCSEcw/lcms/include/lcms.h libecwj2-3.3-new/Source/C/NCSEcw/lcms/include/lcms.h
+--- libecwj2-3.3-clean/Source/C/NCSEcw/lcms/include/lcms.h	2006-07-03 10:15:22.000000000 -0500
++++ libecwj2-3.3-new/Source/C/NCSEcw/lcms/include/lcms.h	2008-12-10 08:58:39.000000000 -0600
+@@ -133,20 +133,12 @@
+ #  define USE_C               1
+ #endif
+ 
+-#if defined(__sgi__) || defined(__sgi) || defined(__powerpc__) || defined(sparc) || defined(__ppc__)
+-#   define USE_BIG_ENDIAN      1
+-#endif
+-
+-#if TARGET_CPU_PPC
+-#   define USE_BIG_ENDIAN   1
+-#endif
+-
+-#ifdef macintosh
+-#   define USE_BIG_ENDIAN      1
+-#endif
+-
+-#ifdef WORDS_BIGENDIAN
+-#   define USE_BIG_ENDIAN      1
++#ifdef __BIG_ENDIAN__
++  #define WORDS_BIGENDIAN 1
++  #define USE_BIG_ENDIAN 1
++#else
++  #undef WORDS_BIGENDIAN
++  #undef USE_BIG_ENDIAN
+ #endif
+ 
+ #if defined(__OpenBSD__) || defined(__NetBSD__) || defined(__FreeBSD__)
+@@ -176,14 +168,16 @@
+ typedef int BOOL;
+ typedef char *LPSTR;
+ #else
++#undef BOOL
+ #define BOOL int
++#undef LPSTR
+ #define LPSTR char*
+ #endif // !MACOSX /**[01]*/
+ 
+ typedef void *LPVOID;
+ typedef void* LCMSHANDLE;
+ 
+-
++#undef ZeroMemory
+ #define ZeroMemory(p,l)     memset((p),0,(l))
+ #define CopyMemory(d,s,l)   memcpy((d),(s),(l))
+ #define FAR
+@@ -200,7 +194,9 @@
+ #       define TRUE  1
+ #endif
+ 
++#undef LOWORD
+ #define LOWORD(l)    ((WORD)(l))
++#undef HIWORD
+ #define HIWORD(l)    ((WORD)((DWORD)(l) >> 16))
+ 
+ #ifndef MAX_PATH
+diff -ur libecwj2-3.3-clean/Source/C/NCSUtil/NCSError.cpp libecwj2-3.3-new/Source/C/NCSUtil/NCSError.cpp
+--- libecwj2-3.3-clean/Source/C/NCSUtil/NCSError.cpp	2006-07-03 10:15:12.000000000 -0500
++++ libecwj2-3.3-new/Source/C/NCSUtil/NCSError.cpp	2008-12-10 08:58:41.000000000 -0600
+@@ -71,7 +71,7 @@
+ {
+ 	char buf[1024];
+ 
+-	snprintf(buf, sizeof(buf), "An error has occurred: Error %ld \"%s\" %s file \"%s\" line %ld", m_eError, NCSGetErrorText(m_eError), m_pText ? m_pText : "", m_pFile, m_nLine);
++	snprintf(buf, sizeof(buf), "An error has occurred: Error %d \"%s\" %s file \"%s\" line %d", m_eError, NCSGetErrorText(m_eError), m_pText ? m_pText : "", m_pFile, m_nLine);
+ 	
+ 	if(pFormat) {
+ 		char buf2[1024];
+diff -ur libecwj2-3.3-clean/Source/C/NCSUtil/NCSLog.cpp libecwj2-3.3-new/Source/C/NCSUtil/NCSLog.cpp
+--- libecwj2-3.3-clean/Source/C/NCSUtil/NCSLog.cpp	2006-07-03 10:15:12.000000000 -0500
++++ libecwj2-3.3-new/Source/C/NCSUtil/NCSLog.cpp	2008-12-10 08:58:35.000000000 -0600
+@@ -166,7 +166,7 @@
+ 		while(p > pFile && *(p - 1) != '\\') {
+ 			p--;
+ 		}
+-		_snprintf(buf, sizeof(buf), "%d : File %s, Line %ld, ", (int)eLevel, p, nLine);
++		_snprintf(buf, sizeof(buf), "%d : File %s, Line %d, ", (int)eLevel, p, nLine);
+ 		int nLen = (int)strlen(buf);
+ 
+ #ifdef POSIX
+diff -ur libecwj2-3.3-clean/Source/C/NCSUtil/file.c libecwj2-3.3-new/Source/C/NCSUtil/file.c
+--- libecwj2-3.3-clean/Source/C/NCSUtil/file.c	2006-07-03 10:15:02.000000000 -0500
++++ libecwj2-3.3-new/Source/C/NCSUtil/file.c	2008-12-10 08:58:37.000000000 -0600
+@@ -41,6 +41,7 @@
+ 
+ #ifdef MACOSX
+ #	include "CoreServices/CoreServices.h"
++#   include <unistd.h>
+ #endif
+ 
+ #ifndef _WIN32_WCE
+@@ -1084,6 +1085,10 @@
+ 
+ 	return(NCSStrDup(""));
+ 
++#elif defined POSIX
++
++	return(NCSStrDup("/tmp"));
++
+ #elif defined MACOSX
+ 
+         FSRef tempRef;
+@@ -1098,10 +1103,6 @@
+ 
+         return( NCSStrDup(szPath) );
+ 
+-#elif defined POSIX
+-
+-	return(NCSStrDup("/tmp"));
+-
+ #else	/* PALM */
+ 	char *szTmpDir = getenv("TMP");
+ 	if (szTmpDir != NULL)
+diff -ur libecwj2-3.3-clean/Source/C/NCSUtil/thread.c libecwj2-3.3-new/Source/C/NCSUtil/thread.c
+--- libecwj2-3.3-clean/Source/C/NCSUtil/thread.c	2006-07-03 10:15:02.000000000 -0500
++++ libecwj2-3.3-new/Source/C/NCSUtil/thread.c	2008-12-10 08:58:32.000000000 -0600
+@@ -46,6 +46,11 @@
+ pthread_attr_t sAttributes;
+ #endif
+ 
++#ifdef MACOSX
++// Native thread calls needed to work around pthread issues
++#include <mach/thread_act.h>
++#endif 
++
+ /*
+  ** Internal thread info.
+  */
+@@ -426,8 +431,14 @@
+ #elif defined(PALM)
+ #elif defined(MACINTOSH)
+ #elif defined(POSIX)
++#ifndef MACOSX
+ 				void *value_pair = (void*)NULL;
+ 				pthread_join(ppThreadInfos[i]->thread, &value_pair);
++#else
++				// Work around non-POSIX pthreads implementation
++				mach_port_t machThread = pthread_mach_thread_np(ppThreadInfos[i]->thread);
++				thread_terminate (machThread);
++#endif // MACOSX
+ 				NCSMutexFini(&ppThreadInfos[i]->mSuspendMutex);
+ #else
+ #error NCSThreadFreeInfo()
+diff -ur libecwj2-3.3-clean/Source/C/NCSnet/NCScnet3/NCSGetPasswordDlg.cpp libecwj2-3.3-new/Source/C/NCSnet/NCScnet3/NCSGetPasswordDlg.cpp
+--- libecwj2-3.3-clean/Source/C/NCSnet/NCScnet3/NCSGetPasswordDlg.cpp	2006-07-03 10:15:12.000000000 -0500
++++ libecwj2-3.3-new/Source/C/NCSnet/NCScnet3/NCSGetPasswordDlg.cpp	2008-12-10 08:58:42.000000000 -0600
+@@ -31,7 +31,7 @@
+ #endif // WIN32
+ 
+ #if defined(MACOSX)
+-#include "Carbon/Carbon.h"
++//#include "Carbon/Carbon.h"
+ #include "NCSThread.h"
+ #endif
+ 
+@@ -86,7 +86,7 @@
+ #define DLLNAME "NCScnet.dll"
+ #endif
+ 
+-#elif defined(MACOSX)
++#elif defined(BOGUS)
+ 
+ typedef struct {
+     WindowRef theWindow;
+@@ -219,7 +219,7 @@
+ 		sPassword = "";
+ 		return false;
+ 	}
+-#elif defined(MACOSX)
++#elif defined(BOGUS)
+     OSStatus err;
+     IBNibRef theNib;
+     WindowRef theWindow;
+diff -ur libecwj2-3.3-clean/Source/C/NCSnet/NCScnet3/NCSSocket.cpp libecwj2-3.3-new/Source/C/NCSnet/NCScnet3/NCSSocket.cpp
+--- libecwj2-3.3-clean/Source/C/NCSnet/NCScnet3/NCSSocket.cpp	2006-07-03 10:15:12.000000000 -0500
++++ libecwj2-3.3-new/Source/C/NCSnet/NCScnet3/NCSSocket.cpp	2008-12-10 08:58:33.000000000 -0600
+@@ -187,11 +187,11 @@
+ 	//init();
+ 	struct sockaddr_in info;
+ #if defined(POSIX) && !defined(HPUX)
+-#	ifdef MACOSX
+-	int tempSize = sizeof(struct sockaddr);
+-#	else
++//#	ifdef MACOSX
++//	int tempSize = sizeof(struct sockaddr);
++//#	else
+ 	socklen_t tempSize = sizeof(struct sockaddr);
+-#	endif
++//#	endif
+ #else
+ 	int tempSize = sizeof(struct sockaddr);
+ #endif
+diff -ur libecwj2-3.3-clean/Source/include/NCSDefs.h libecwj2-3.3-new/Source/include/NCSDefs.h
+--- libecwj2-3.3-clean/Source/include/NCSDefs.h	2006-07-03 10:15:22.000000000 -0500
++++ libecwj2-3.3-new/Source/include/NCSDefs.h	2008-12-10 08:58:40.000000000 -0600
+@@ -58,7 +58,11 @@
+ #endif
+ 
+ #if (defined(MACINTOSH)||defined(SOLARIS)||defined(IRIX)||defined(PALM)||defined(HPUX)||defined(MACOSX))&&(!defined(X86))
++#ifdef __LITTLE_ENDIAN__
++#define NCSBO_LSBFIRST
++#else
+ #define NCSBO_MSBFIRST
++#endif
+ #else	// WIN32, LINUX (i386)
+ #define NCSBO_LSBFIRST
+ #endif
+@@ -126,6 +130,10 @@
+ #include <limits.h>
+ #include <ctype.h>
+ 
++#ifdef __LP64__
++#define NCS_64BIT
++#endif
++
+ #define NCS_FQNAN	0x0002
+ #define NCS_NAN		NAN
+ #ifndef MAXDOUBLE

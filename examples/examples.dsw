@@ -1,0 +1,164 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "Example3"=.\decompression\example3\Example3.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "buildall"=.\buildall.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name cexample1
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name cexample2
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name cexample3
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name cexample5
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name dexample1
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name dexample2
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name dexample4
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Example3
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name cexample4
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "cexample1"=.\compression\example1\cexample1.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "cexample2"=.\compression\example2\cexample2.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "cexample3"=.\compression\example3\cexample3.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "cexample4"=.\compression\example4\cexample4.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "cexample5"=.\compression\example5\cexample5.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "dexample1"=.\decompression\example1\dexample1.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "dexample2"=.\decompression\example2\dexample2.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "dexample4"=.\decompression\example4\dexample4.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+

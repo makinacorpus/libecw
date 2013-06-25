@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding = "Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="7.10"
+	Name="CExample5S"
+	ProjectGUID="{A99DD6B0-7B27-3235-A67E-B4ADC721CD29}">
+	<Platforms>
+		<Platform
+			Name="Win32"/>
+	</Platforms>
+	<Configurations>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="."
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			ConfigurationType="1"
+			IntermediateDirectory="..\..\..\obj\static\"
+			UseOfMfc="0">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="..\..\..\Source\include,.,C:\Qt\3.3.4Evaluation\mkspecs\win32-msvc.net"
+				AdditionalOptions="-Zm200 -GX -w34100 -w34189"
+				AssemblerListingLocation="..\..\..\obj\static\"
+				BufferSecurityCheck="FALSE"
+				DebugInformationFormat="0"
+				ExceptionHandling="TRUE"
+				GeneratePreprocessedFile="0"
+				ObjectFile="..\..\..\obj\static\"
+				Optimization ="2"
+				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNICODE,WIN32,_UNICODE,QT_DLL,NDEBUG"
+				ProgramDataBaseFileName=".\"
+				RuntimeLibrary="2"
+				SuppressStartupBanner="TRUE"
+				WarningLevel="3"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="..\..\..\lib\libecwj2S.lib Crypt32.lib shlwapi.lib ws2_32.lib wininet.lib version.lib imagehlp.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib imm32.lib winmm.lib wsock32.lib winspool.lib delayimp.lib"
+				DelayLoadDLLs="comdlg32.dll,oleaut32.dll,winmm.dll,wsock32.dll,winspool.dll"
+				GenerateDebugInformation="FALSE"
+				IgnoreImportLibrary="TRUE"
+				OutputFile="..\..\..\bin\CExample5S.exe"
+				ProgramDatabaseFile=""
+				SubSystem="2"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"/>
+		</Configuration>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="."
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			ConfigurationType="1"
+			IntermediateDirectory="Debug\"
+			UseOfMfc="0">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="..\..\..\Source\include,.,C:\Qt\3.3.4Evaluation\mkspecs\win32-msvc.net"
+				AdditionalOptions="-Zm200 -GX -w34100 -w34189"
+				AssemblerListingLocation="Debug\"
+				BufferSecurityCheck="FALSE"
+				DebugInformationFormat="3"
+				ExceptionHandling="TRUE"
+				GeneratePreprocessedFile="0"
+				MinimalRebuild="TRUE"
+				ObjectFile="Debug\"
+				Optimization ="2"
+				PreprocessorDefinitions="UNICODE,WIN32,_UNICODE,QT_DLL"
+				ProgramDataBaseFileName=".\"
+				RuntimeLibrary="2"
+				SuppressStartupBanner="TRUE"
+				WarningLevel="3"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="..\..\..\lib\libecwj2S.lib Crypt32.lib shlwapi.lib ws2_32.lib wininet.lib version.lib imagehlp.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib imm32.lib winmm.lib wsock32.lib winspool.lib delayimp.lib"
+				GenerateDebugInformation="TRUE"
+				IgnoreImportLibrary="TRUE"
+				OutputFile="Debug\\CExample5S.exe"
+				ProgramDatabaseFile=""
+				SubSystem="2"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"/>
+		</Configuration>
+	</Configurations>
+	<Files>
+		<Filter
+			Name="Source Files"
+			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
+			<File
+				RelativePath="..\..\..\examples\compression\example5\cexample5.cpp">
+			</File>
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

@@ -1,0 +1,37 @@
+#!/bin/sh
+#
+# Bootstrap script to create autotools makefiles for the example code 
+# in the libecwj2 distribution
+#
+# Author:       Tom Lynch
+# Created:	2005-09-09
+# Updated:      2005-09-28
+#
+# Edits:
+# 2005-09-28	Commented subdir autotools processing (not needed)
+
+# (old code)
+#C_DIRS='./compression ./compression/example1 ./compression/example2 ./compression/example3 ./compression/example5'
+#D_DIRS='. ./decompression ./decompression/example1 ./decompression/example2 ./decompression/example4'
+#DIRECTORIES="$C_DIRS $D_DIRS"
+# autoheader
+#for item in $DIRECTORIES ; do
+#	echo $item;
+#	DIR=$PWD ;
+#	cd $item ;
+#	libtoolize --force --copy
+#	aclocal ;
+#	automake --foreign --add-missing;
+#	autoconf ;
+#	./configure ;
+#	cd $DIR ;
+#done
+
+
+# Now only process this directory - quicker
+# Also, don't run configure from this script
+libtoolize --force --copy
+aclocal
+automake --foreign --add-missing
+autoconf
+
